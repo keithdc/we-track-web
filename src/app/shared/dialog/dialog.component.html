@@ -1,0 +1,12 @@
+<div class="!flex items-baseline" mat-dialog-title>
+  <h2>{{dialogConfig.title}}</h2>
+  <button (click)="handleClose()" class="ml-auto" mat-icon-button>
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<mat-dialog-content>
+  <ng-content *ngTemplateOutlet="dialogConfig.content"></ng-content>
+</mat-dialog-content>
+<mat-dialog-actions align="end" class="!px-6">
+  <button (click)="handleSubmit()" *ngIf="dialogConfig.saveTitle" cdkFocusInitial color="primary" mat-flat-button>{{dialogConfig.saveTitle}}</button>
+</mat-dialog-actions>

@@ -1,0 +1,208 @@
+{
+  "root": true,
+  "ignorePatterns": [
+    "projects/**/*"
+  ],
+  "overrides": [
+    {
+      "files": [
+        "*.ts"
+      ],
+      "parserOptions": {
+        "project": [
+          "tsconfig.json"
+        ],
+        "createDefaultProgram": true
+      },
+      "extends": [
+        "plugin:@angular-eslint/recommended",
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking",
+        "plugin:@angular-eslint/template/process-inline-templates"
+      ],
+      "rules": {
+        "@typescript-eslint/explicit-member-accessibility": [
+          "off",
+          {
+            "accessibility": "explicit"
+          }
+        ],
+        "@typescript-eslint/unbound-method": ["error", {
+          "ignoreStatic": true
+        }],
+        "@typescript-eslint/member-ordering": [
+          "error",
+          {
+            "default": {
+              "memberTypes": [
+                // Index signature
+                "signature",
+                // Fields
+                "public-static-field",
+                "protected-static-field",
+                "private-static-field",
+                "public-decorated-field",
+                "protected-decorated-field",
+                "private-decorated-field",
+                "public-instance-field",
+                "protected-instance-field",
+                "private-instance-field",
+                "public-abstract-field",
+                "protected-abstract-field",
+//                "private-abstract-field",
+                // Constructors
+                "public-constructor",
+                "protected-constructor",
+                "private-constructor",
+                // these Getters and Setters are from the default config...but I don't really see the value of having all getters before setters etc
+//                // Getters
+//                "public-static-get",
+//                "protected-static-get",
+//                "private-static-get",
+//                "public-decorated-get",
+//                "protected-decorated-get",
+//                "private-decorated-get",
+//                "public-instance-get",
+//                "protected-instance-get",
+//                "private-instance-get",
+//                "public-abstract-get",
+//                "protected-abstract-get",
+//                "private-abstract-get",
+//                "public-get",
+//                "protected-get",
+//                "private-get",
+//                "static-get",
+//                "instance-get",
+//                "abstract-get",
+//                "decorated-get",
+//                "get",
+//                // Setters
+//                "public-static-set",
+//                "protected-static-set",
+//                "private-static-set",
+//                "public-decorated-set",
+//                "protected-decorated-set",
+//                "private-decorated-set",
+//                "public-instance-set",
+//                "protected-instance-set",
+//                "private-instance-set",
+//                "public-abstract-set",
+//                "protected-abstract-set",
+//                "private-abstract-set",
+//                "public-set",
+//                "protected-set",
+//                "private-set",
+//                "static-set",
+//                "instance-set",
+//                "abstract-set",
+//                "decorated-set",
+//                "set",
+                // Methods
+                "public-static-method",
+                "protected-static-method",
+                "private-static-method",
+                "public-decorated-method",
+                "protected-decorated-method",
+                "private-decorated-method",
+                "public-instance-method",
+                "protected-instance-method",
+                "private-instance-method",
+                "public-abstract-method",
+                "protected-abstract-method"
+//                ,"private-abstract-method"
+              ]
+            }
+          }
+        ],
+        "@typescript-eslint/explicit-function-return-type": "error",
+        "@typescript-eslint/no-explicit-any": "error",
+        "@typescript-eslint/no-inferrable-types": "off",
+        "@typescript-eslint/no-empty-function": "off",
+        "@typescript-eslint/naming-convention": [
+          "error",
+          // begin defaults from https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/naming-convention.md
+          {
+            "selector": "default",
+            "format": ["camelCase"],
+            "leadingUnderscore": "allow",
+            "trailingUnderscore": "allow"
+          },
+
+          {
+            "selector": "variable",
+            "format": ["camelCase", "UPPER_CASE"],
+            "leadingUnderscore": "allow",
+            "trailingUnderscore": "allow"
+          },
+
+          {
+            "selector": "typeLike",
+            "format": ["PascalCase"]
+          },
+          // end defaults from https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/naming-convention.md
+          // begin custom rules
+          {
+            "selector": "classProperty",
+            "modifiers": ["readonly", "static"],
+            "format": ["camelCase", "UPPER_CASE"]
+          },
+          {
+            "selector": "classProperty",
+            "filter": {
+              "regex": ".+Enum$|.+Constants$|^CoreRoute$|^InsightsSettings$|.+PropTitles$",
+              "match": true
+            },
+            "format": ["PascalCase"]
+          },
+          {
+            "selector": "classProperty",
+            "filter": {
+              "regex": ".+Util",
+              "match": true
+            },
+            "format": ["camelCase", "PascalCase"]
+          },
+          {
+            "selector": "enumMember",
+            "format": ["camelCase", "UPPER_CASE"]
+          },
+          {
+            "selector": "enum",
+            "custom": {
+              "regex": ".+Enum",
+              "match": true
+            },
+            "format": ["PascalCase"]
+          }
+          // end custom rules
+        ],
+        "arrow-parens": [
+          "off",
+          "always"
+        ],
+        "arrow-body-style": [
+          "off"
+        ],
+        "import/order": "off",
+        "max-len": [
+          "error",
+          {
+            "ignorePattern": "^import [^,]+ from |^export | implements",
+            "code": 140,
+            "ignoreTemplateLiterals": true
+          }
+        ]
+      }
+    },
+    {
+      "files": [
+        "*.html"
+      ],
+      "extends": [
+        "plugin:@angular-eslint/template/recommended"
+      ],
+      "rules": {}
+    }
+  ]
+}

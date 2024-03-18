@@ -1,0 +1,28 @@
+<mat-drawer-container [hasBackdrop]="false" autosize class="h-full">
+
+  <mat-drawer class="!w-60 mt-12 py-2.5 px-5" mode="over">
+    <button mat-flat-button class="w-full !justify-start" (click)="routeTo('inventory')">
+      <mat-icon>inventory</mat-icon>
+      Inventory
+    </button>
+    <button mat-flat-button class="w-full !justify-start" (click)="routeTo('product')">
+      <mat-icon>widgets</mat-icon>
+      Product
+    </button>
+    <button mat-flat-button class="w-full !justify-start" (click)="routeTo('sales')">
+      <mat-icon>point_of_sale</mat-icon>
+      Sales
+    </button>
+  </mat-drawer>
+  <mat-drawer-content>
+    <mat-toolbar class="drop-shadow-lg !h-12" color="primary">
+      <button (click)="matDrawer?.toggle()" aria-label="Example icon-button with menu icon" class="example-icon" mat-icon-button>
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span>POSS</span>
+    </mat-toolbar>
+    <div class="py-2.5 px-5 h-full relative">
+      <ng-content select="router-outlet"></ng-content>
+    </div>
+  </mat-drawer-content>
+</mat-drawer-container>

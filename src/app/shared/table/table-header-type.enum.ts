@@ -1,0 +1,16 @@
+export enum TableHeaderTypeEnum {
+  plain = 'plain',
+  link_action = 'link_action',
+  list = 'list',
+  chips = 'chips',
+  money = 'money',
+  twonumbers = 'twonumbers',
+  number = 'number',
+  icons = 'icons',
+  buttons = 'buttons',
+  date = 'date',
+  mediumDate = 'mediumDate',
+  datetime = 'datetime',
+  percent = 'percent',
+  titlecase = 'titlecase',
+}

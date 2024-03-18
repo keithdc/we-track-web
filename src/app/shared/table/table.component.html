@@ -1,0 +1,40 @@
+<div *ngIf="!loading && displayedColumns && dataSource && displayedColumnProps" class="mat-elevation-z8">
+  <table [dataSource]="dataSource" mat-table matSort>
+
+    <ng-container *ngFor="let column of displayedColumns; trackBy: identifyColumn; let index = index;"
+                  [matColumnDef]="column.prop"
+    >
+      <th *matHeaderCellDef
+          mat-header-cell
+          mat-sort-header>
+        {{displayedColumns[index].name}}
+      </th>
+      <td *matCellDef="let element" mat-cell>
+        <ng-container [ngSwitch]="column.type">
+          <ng-container *ngSwitchCase="type.plain">{{element[column.prop]}}</ng-container>
+          <ng-container *ngSwitchCase="type.link_action">
+            <button (click)="handleAction(element)" color="primary" mat-button>{{element[column.prop]}}</button>
+          </ng-container>
+          <ng-container *ngSwitchCase="type.date">{{element[column.prop] | date: 'mediumDate'}}</ng-container>
+          <ng-container *ngSwitchCase="type.datetime">{{element[column.prop] | date: 'medium'}}</ng-container>
+        </ng-container>
+      </td>
+    </ng-container>
+
+
+    <tr *matHeaderRowDef="displayedColumnProps" mat-header-row></tr>
+    <tr *matRowDef="let row; columns: displayedColumnProps;" mat-row></tr>
+
+    <tr *matNoDataRow class="mat-row">
+      <td class="flex ml-2.5" colspan="4">No results...</td>
+    </tr>
+  </table>
+
+  <mat-paginator (page)="handlePageEvent($event)" [length]="length" [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]=[pageSize] aria-label="Select page of users"></mat-paginator>
+</div>
+
+<ng-container *ngIf="loading">
+  <div class="flex items-center justify-center">
+    <mat-progress-spinner [color]="'primary'" [mode]="'indeterminate'"></mat-progress-spinner>
+  </div>
+</ng-container>

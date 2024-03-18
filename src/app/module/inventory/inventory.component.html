@@ -1,0 +1,33 @@
+<div class="flex justify-between items-baseline">
+  <mat-form-field class="w-6/12">
+    <mat-icon matPrefix>search</mat-icon>
+    <mat-label>Filter by Product/Barcode</mat-label>
+    <input [formControl]="searchFormControl" matInput placeholder="Ex. Product">
+  </mat-form-field>
+
+  <button (click)="handleAddNew()" color="accent" mat-flat-button>
+    <mat-icon>add</mat-icon>
+    Add
+  </button>
+</div>
+
+<app-table (action)="handleAction($event)" (pageEvent)="handlePageEvent($event)" [dataSource]="dataSource" [displayedColumns]="displayedColumns" [pageIndex]="pageIndex" [pageSize]="pageSize" [length]="length">
+</app-table>
+<ng-template #formInventoryContent>
+  <form [formGroup]="inventoryForm" class="flex flex-col">
+    <mat-form-field appearance="fill" class="mb-2.5">
+      <mat-label>Product Name</mat-label>
+      <input formControlName="name" matInput placeholder="..."/>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Quantity</mat-label>
+      <input formControlName="quantity" matInput placeholder="100" type="number"/>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="mb-2.5">
+      <mat-label>Barcode</mat-label>
+      <input formControlName="barCode" matInput placeholder="..."/>
+    </mat-form-field>
+  </form>
+</ng-template>
