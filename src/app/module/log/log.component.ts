@@ -51,7 +51,7 @@ export class LogComponent implements OnInit, OnDestroy {
     this.displayedColumns.push({prop: 'truckType', name: 'Trip Type', type: TableHeaderTypeEnum.plain});
     this.displayedColumns.push({prop: 'rateCode', name: 'Rate Code', type: TableHeaderTypeEnum.plain});
     this.displayedColumns.push({prop: 'amount', name: 'Amount', type: TableHeaderTypeEnum.plain});
-    this.displayedColumns.push({prop: 'status', name: 'Status', type: TableHeaderTypeEnum.plain});
+    this.displayedColumns.push({prop: 'status', name: 'Status', type: TableHeaderTypeEnum.statusLog});
     this.form = this.formBuilder.group({
       id: null,
       voucherCode: null,
@@ -237,7 +237,6 @@ export class LogComponent implements OnInit, OnDestroy {
               truckType: log.truck.type.type,
               rateCode: log.rate.rateCode,
               amount: log.rate.amount,
-              status: StatusLogEnumUtil.description(log.status as StatusLogEnum),
             };
             if (index >= 0) {
               this.dataSource.data[index] = mapLog;
@@ -277,7 +276,6 @@ export class LogComponent implements OnInit, OnDestroy {
             truckType: log.truck.type.type,
             rateCode: log.rate.rateCode,
             amount: log.rate.amount,
-            status: StatusLogEnumUtil.description(log.status as StatusLogEnum)
           };
         });
         this.loading = false;

@@ -3,6 +3,7 @@ export enum TableHeaderTypeEnum {
   link_action = 'link_action',
   list = 'list',
   chips = 'chips',
+  statusLog = 'statusLog',
   money = 'money',
   twonumbers = 'twonumbers',
   number = 'number',

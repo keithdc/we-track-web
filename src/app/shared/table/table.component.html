@@ -17,6 +17,9 @@
           </ng-container>
           <ng-container *ngSwitchCase="type.date">{{element[column.prop] | date: 'mediumDate'}}</ng-container>
           <ng-container *ngSwitchCase="type.datetime">{{element[column.prop] | date: 'medium'}}</ng-container>
+          <ng-container *ngSwitchCase="type.statusLog">{{statusLogEnumUtil.description(element[column.prop])}}</ng-container>
+
+
         </ng-container>
       </td>
     </ng-container>

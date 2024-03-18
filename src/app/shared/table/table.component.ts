@@ -11,6 +11,7 @@ import {DatePipe, NgForOf, NgIf, NgSwitch, NgSwitchCase} from '@angular/common';
 import {TableHeaderInterface} from './table-header.interface';
 import {TableHeaderTypeEnum} from './table-header-type.enum';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {StatusLogEnumUtil} from '../../api/log/status-log.enum';
 
 @Component({
   selector: 'app-table',
@@ -48,9 +49,18 @@ export class TableComponent<T> implements OnInit, AfterViewInit, OnDestroy {
   @Input() pageIndex: number = 0;
   #displayedColumnProps: string[] | undefined;
   #type: typeof TableHeaderTypeEnum = TableHeaderTypeEnum
+  #statusLogEnumUtil: typeof StatusLogEnumUtil = StatusLogEnumUtil;
   #unsubscribeAll: Subject<void> = new Subject<void>();
 
   constructor() {
+  }
+
+  get statusLogEnumUtil(): typeof StatusLogEnumUtil {
+    return this.#statusLogEnumUtil;
+  }
+
+  set statusLogEnumUtil(value: typeof StatusLogEnumUtil) {
+    this.#statusLogEnumUtil = value;
   }
 
   get displayedColumnProps(): string[] | undefined {
