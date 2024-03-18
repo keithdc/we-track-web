@@ -15,8 +15,20 @@ export const routes: Routes = [
     loadChildren: () => import('./module/sales/sales.module').then(m => m.SalesModule),
   },
   {
+    path: 'log',
+    loadChildren: () => import('./module/log/log.module').then(m => m.LogModule),
+  },
+  {
+    path: 'rate',
+    loadChildren: () => import('./module/rate/rate.module').then(m => m.RateModule),
+  },
+  {
     path: 'truck',
     loadChildren: () => import('./module/truck/truck.module').then(m => m.TruckModule),
+  },
+  {
+    path: 'company',
+    loadChildren: () => import('./module/company/company.module').then(m => m.CompanyModule),
   },
   {
     path: 'truck-type',

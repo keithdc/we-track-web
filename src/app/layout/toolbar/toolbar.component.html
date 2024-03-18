@@ -14,9 +14,21 @@
 <!--      Sales-->
 <!--    </button>-->
 
+    <button mat-flat-button class="w-full !justify-start" (click)="routeTo('log')">
+      <mat-icon>event_note</mat-icon>
+      Log
+    </button>
+    <button mat-flat-button class="w-full !justify-start" (click)="routeTo('rate')">
+      <mat-icon>request_quote</mat-icon>
+      Rate
+    </button>
     <button mat-flat-button class="w-full !justify-start" (click)="routeTo('truck')">
       <mat-icon>local_shipping</mat-icon>
       Truck
+    </button>
+    <button mat-flat-button class="w-full !justify-start" (click)="routeTo('company')">
+      <mat-icon>domain</mat-icon>
+      Company
     </button>
     <button mat-flat-button class="w-full !justify-start" (click)="routeTo('truck-type')">
       <mat-icon>category</mat-icon>

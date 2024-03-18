@@ -1,0 +1,40 @@
+<div class="flex justify-between items-baseline mb-5">
+  <!--  <mat-form-field class="w-6/12">-->
+  <!--    <mat-icon matPrefix>search</mat-icon>-->
+  <!--    <mat-label>Filter by Product/Barcode</mat-label>-->
+  <!--    <input [formControl]="searchFormControl" matInput placeholder="Ex. Product">-->
+  <!--  </mat-form-field>-->
+
+  <button (click)="handleAddNew()" color="accent" mat-flat-button>
+    <mat-icon>add</mat-icon>
+    Add
+  </button>
+</div>
+
+<app-table (action)="handleAction($event)" (pageEvent)="handlePageEvent($event)" [dataSource]="dataSource" [displayedColumns]="displayedColumns" [length]="length" [pageIndex]="pageIndex"
+           [pageSize]="pageSize">
+</app-table>
+<ng-template #content>
+  <form [formGroup]="form" class="flex flex-col">
+    <mat-form-field appearance="fill" class="mb-2.5">
+      <mat-label>Name</mat-label>
+      <input formControlName="name" matInput placeholder="..."/>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="mb-2.5">
+      <mat-label>Address</mat-label>
+      <input formControlName="address" matInput placeholder="..."/>
+    </mat-form-field>
+
+
+    <ng-container *ngIf="form.value.id" formGroupName="type">
+      <mat-form-field appearance="fill" class="mb-2.5">
+        <mat-label>Status</mat-label>
+        <select formControlName="status" matNativeControl required>
+          <option label="-- Type --"></option>
+          <option *ngFor="let status of statusEnum" [value]="status.name">{{status.description}}</option>
+        </select>
+      </mat-form-field>
+    </ng-container>
+  </form>
+</ng-template>

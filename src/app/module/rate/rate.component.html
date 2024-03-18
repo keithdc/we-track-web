@@ -1,0 +1,42 @@
+<div class="flex items-baseline mb-5 ">
+
+  <mat-form-field appearance="fill" class="mr-5">
+    <mat-label>Companies</mat-label>
+    <select [formControl]="companyFormControl" matNativeControl required>
+      <option label="-- Type --"></option>
+      <option *ngFor="let company of companies" [value]="company.id">{{company.name}}</option>
+    </select>
+  </mat-form-field>
+
+  <button (click)="handleAddNew()" color="accent" mat-flat-button>
+    <mat-icon>add</mat-icon>
+    Add
+  </button>
+</div>
+
+<app-table (action)="handleAction($event)" (pageEvent)="handlePageEvent($event)" [dataSource]="dataSource" [displayedColumns]="displayedColumns" [length]="length" [pageIndex]="pageIndex"
+           [pageSize]="pageSize">
+</app-table>
+<ng-template #content>
+  <form [formGroup]="form" class="flex flex-col">
+    <mat-form-field appearance="fill" class="mb-2.5">
+      <mat-label>From</mat-label>
+      <input formControlName="fromDestination" matInput placeholder="..."/>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="mb-2.5">
+      <mat-label>To</mat-label>
+      <input formControlName="toDestination" matInput placeholder="..."/>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="mb-2.5">
+      <mat-label>Rate Code</mat-label>
+      <input formControlName="rateCode" matInput placeholder="..." oninput="this.value = this.value.toUpperCase()"/>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="mb-2.5">
+      <mat-label>Amount</mat-label>
+      <input formControlName="amount" matInput type="number"/>
+    </mat-form-field>
+  </form>
+</ng-template>

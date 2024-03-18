@@ -20,12 +20,14 @@
       <input formControlName="plateNumber" matInput placeholder="..." oninput="this.value = this.value.toUpperCase()"/>
     </mat-form-field>
 
-    <mat-form-field appearance="fill" class="mb-2.5">
-      <mat-label>Truck Type</mat-label>
-      <select matNativeControl required formControlName="type">
-        <option label="-- Type --"></option>
-        <option *ngFor="let type of truckTypes" [value]="type.id">{{type.type}}</option>
-      </select>
-    </mat-form-field>
+    <ng-container formGroupName="type">
+      <mat-form-field appearance="fill" class="mb-2.5">
+        <mat-label>Truck Type</mat-label>
+        <select matNativeControl required formControlName="id">
+          <option label="-- Type --"></option>
+          <option *ngFor="let type of truckTypes" [value]="type.id">{{type.type}}</option>
+        </select>
+      </mat-form-field>
+    </ng-container>
   </form>
 </ng-template>

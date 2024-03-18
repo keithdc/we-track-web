@@ -11,63 +11,89 @@ import {PageEvent} from '@angular/material/paginator';
 import {switchMap} from 'rxjs/operators';
 import {TruckService} from '../../api/truck/truck.service';
 import {TruckInterface} from '../../api/truck/truck.interface';
-import {TruckTypeService} from '../../api/truck-type/truck-type.service';
-import {TruckTypeInterface} from '../../api/truck-type/truck-type.interface';
+import {RateService} from '../../api/rate/rate.service';
+import {LogService} from '../../api/log/log.service';
+import {LogInterface} from '../../api/log/log.interface';
+import {RateInterface} from '../../api/rate/rate.interface';
+import {EnumNameDescription} from '../../shared/enum/enum';
+import {StatusLogEnum, StatusLogEnumUtil} from '../../api/log/status-log.enum';
 
 @Component({
   selector: 'app-truck-type',
-  templateUrl: './truck.component.html',
-  styleUrl: './truck.component.scss'
+  templateUrl: './log.component.html',
+  styleUrl: './log.component.scss'
 })
-export class TruckComponent implements OnInit, OnDestroy {
+export class LogComponent implements OnInit, OnDestroy {
   @ViewChild('content', {static: true}) formProductContent: TemplateRef<DialogInterface> | undefined;
   form: UntypedFormGroup;
   #searchFormControl: FormControl = new FormControl<string>('');
   #displayedColumns: TableHeaderInterface[] = [];
-  #dataSource: MatTableDataSource<TruckInterface> | undefined;
+  #dataSource: MatTableDataSource<LogInterface> | undefined;
   #unsubscribeAll: Subject<void> = new Subject<void>();
   #pageSize: number = 50;
   #pageIndex: number = 0;
   #length: number = 0;
   #loading: boolean | undefined;
-  #truckTypes: TruckTypeInterface[] | undefined
+  #trucks: TruckInterface[] | undefined
+  #rates: RateInterface[] | undefined
+  #statusEnum: EnumNameDescription[] = StatusLogEnumUtil.list();
 
-  constructor(private truckService: TruckService,
-              private truckTypeService: TruckTypeService,
+  constructor(private logService: LogService,
+              private truckService: TruckService,
+              private rateService: RateService,
               private dialogService: DialogService,
               private formBuilder: UntypedFormBuilder,
               private snackbarService: SnackBarService,) {
     this.dataSource = new MatTableDataSource();
-    this.displayedColumns.push({prop: 'plateNumber', name: 'Plate Number', type: TableHeaderTypeEnum.link_action});
-    this.displayedColumns.push({prop: 'truckType', name: 'Type', type: TableHeaderTypeEnum.plain});
-    this.displayedColumns.push({prop: 'dateCreated', name: 'Date Created', type: TableHeaderTypeEnum.datetime});
+    this.displayedColumns.push({prop: 'dateCreated', name: 'Dispatch Date', type: TableHeaderTypeEnum.datetime});
+    this.displayedColumns.push({prop: 'voucherCode', name: 'Voucher Code', type: TableHeaderTypeEnum.link_action});
+    this.displayedColumns.push({prop: 'plateNumber', name: 'Plate Number', type: TableHeaderTypeEnum.plain});
+    this.displayedColumns.push({prop: 'truckType', name: 'Trip Type', type: TableHeaderTypeEnum.plain});
+    this.displayedColumns.push({prop: 'rateCode', name: 'Rate Code', type: TableHeaderTypeEnum.plain});
+    this.displayedColumns.push({prop: 'amount', name: 'Amount', type: TableHeaderTypeEnum.plain});
+    this.displayedColumns.push({prop: 'status', name: 'Status', type: TableHeaderTypeEnum.plain});
     this.form = this.formBuilder.group({
       id: null,
-      plateNumber: null,
-      type: this.formBuilder.group({
+      voucherCode: null,
+      truck: this.formBuilder.group({
         id: null,
-        type: null,
-      })
+        plateNumber: null,
+      }),
+      rate: this.formBuilder.group({
+        id: null,
+        voucherCode: null,
+      }),
+      status: null,
     });
-    this.form.valueChanges.pipe(takeUntil(this.unsubscribeAll)).subscribe(truck => {
-      if (this.truckTypes) {
-        const find = this.truckTypes.find(type => type.id === truck.type.id);
-        this.form.get('type')?.get('type')?.setValue(find?.type, {emitEvent: false});
-      }
-    })
   }
 
   @HostBinding('class')
   get hostClasses(): string {
-    return 'flex flex-col w-6/12';
+    return 'flex flex-col w-11/12';
   }
 
-  get truckTypes(): TruckTypeInterface[] | undefined {
-    return this.#truckTypes;
+  get statusEnum(): EnumNameDescription[] {
+    return this.#statusEnum;
   }
 
-  set truckTypes(value: TruckTypeInterface[] | undefined) {
-    this.#truckTypes = value;
+  set statusEnum(value: EnumNameDescription[]) {
+    this.#statusEnum = value;
+  }
+
+  get rates(): RateInterface[] | undefined {
+    return this.#rates;
+  }
+
+  set rates(value: RateInterface[] | undefined) {
+    this.#rates = value;
+  }
+
+  get trucks(): TruckInterface[] | undefined {
+    return this.#trucks;
+  }
+
+  set trucks(value: TruckInterface[] | undefined) {
+    this.#trucks = value;
   }
 
 
@@ -103,11 +129,11 @@ export class TruckComponent implements OnInit, OnDestroy {
     this.#displayedColumns = value;
   }
 
-  get dataSource(): MatTableDataSource<TruckInterface> | undefined {
+  get dataSource(): MatTableDataSource<LogInterface> | undefined {
     return this.#dataSource;
   }
 
-  set dataSource(value: MatTableDataSource<TruckInterface> | undefined) {
+  set dataSource(value: MatTableDataSource<LogInterface> | undefined) {
     this.#dataSource = value;
   }
 
@@ -137,7 +163,8 @@ export class TruckComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.initFormGroup();
-    this.getTruckTypes();
+    this.getTruck();
+    this.getRates();
     this.buildSearchQuery('');
   }
 
@@ -146,8 +173,12 @@ export class TruckComponent implements OnInit, OnDestroy {
     this.unsubscribeAll.complete();
   }
 
-  getTruckTypes(): void {
-    this.truckTypeService.getAll().pipe(takeUntil(this.unsubscribeAll)).subscribe(truckTypes => this.truckTypes = truckTypes);
+  getTruck(): void {
+    this.truckService.getAll().pipe(takeUntil(this.unsubscribeAll)).subscribe(trucks => this.trucks = trucks);
+  }
+
+  getRates(): void {
+    this.rateService.getAll().pipe(takeUntil(this.unsubscribeAll)).subscribe(rates => this.rates = rates);
   }
 
   handlePageEvent(pageEvent: PageEvent) {
@@ -160,7 +191,7 @@ export class TruckComponent implements OnInit, OnDestroy {
     if (this.formProductContent) {
       this.form.reset();
       const dialogConfig: DialogInterface = {
-        title: 'Add new Truck',
+        title: 'Add new Truck Type',
         saveTitle: 'Save',
         content: this.formProductContent
       }
@@ -168,14 +199,20 @@ export class TruckComponent implements OnInit, OnDestroy {
     }
   }
 
-  handleAction(truckType: TruckInterface): void {
+  handleAction(log: LogInterface): void {
     if (this.formProductContent) {
       const dialogConfig: DialogInterface = {
-        title: `Update ${truckType.plateNumber}`,
+        title: `Update ${log.voucherCode}`,
         saveTitle: 'Update',
         content: this.formProductContent
-      };
-      this.form.patchValue(truckType);
+      }
+      this.form.patchValue({
+        ...log,
+        plateNumber: log.truck.id,
+        truckType: log.truck.type.type,
+        rateCode: log.rate.rateCode,
+        amount: log.rate.amount,
+      });
       this.handleDialog(dialogConfig);
     }
   }
@@ -183,19 +220,31 @@ export class TruckComponent implements OnInit, OnDestroy {
   private handleDialog(dialogConfig: DialogInterface): void {
     this.dialogService.openDialog(dialogConfig).pipe(takeUntil(this.unsubscribeAll), switchMap((dialog) => {
       if (dialog && dialog.submit) {
-        return this.truckService.save(this.form.value).pipe(switchMap((truck) => {
+        const findTruck = this.trucks?.find(truck => truck.id === this.form.value.truck.id);
+        const findRate = this.rates?.find(rate => rate.id === this.form.value.rate.id);
+        const post = {
+          ...this.form.value,
+          truck: findTruck,
+          rate: findRate
+        };
+
+        return this.logService.save(post).pipe(switchMap((log) => {
           if (this.dataSource instanceof MatTableDataSource) {
-            const index: number = this.dataSource.data.findIndex(obj => obj.id === truck.id);
-            const mapTruck = {
-              ...truck,
-              truckType: truck.type.type
+            const index: number = this.dataSource.data.findIndex(obj => obj.id === log.id);
+            const mapLog = {
+              ...log,
+              plateNumber: log.truck.plateNumber,
+              truckType: log.truck.type.type,
+              rateCode: log.rate.rateCode,
+              amount: log.rate.amount,
+              status: StatusLogEnumUtil.description(log.status as StatusLogEnum),
             };
             if (index >= 0) {
-              this.dataSource.data[index] = mapTruck;
-              this.snackbarService.openSnackBar(`${truck.plateNumber} successfully updated.`, '');
+              this.dataSource.data[index] = mapLog;
+              this.snackbarService.openSnackBar(`${mapLog.voucherCode} successfully updated.`, '');
             } else {
-              this.dataSource.data.push(mapTruck);
-              this.snackbarService.openSnackBar(`${truck.plateNumber} successfully added.`, '');
+              this.dataSource.data.push(mapLog);
+              this.snackbarService.openSnackBar(`${mapLog.voucherCode} successfully added.`, '');
             }
             this.dataSource.data = this.dataSource.data;
           }
@@ -219,13 +268,17 @@ export class TruckComponent implements OnInit, OnDestroy {
 
   private buildSearchQuery(searchByName: string | undefined): void {
     this.loading = true;
-    this.truckService.getAll().pipe(takeUntil(this.#unsubscribeAll)).subscribe(trucks => {
+    this.logService.getAll().pipe(takeUntil(this.#unsubscribeAll)).subscribe(logs => {
       if (this.dataSource instanceof MatTableDataSource) {
-        this.dataSource.data = trucks.map((truck) => {
+        this.dataSource.data = logs.map(log => {
           return {
-            ...truck,
-            truckType: truck.type.type,
-          }
+            ...log,
+            plateNumber: log.truck.plateNumber,
+            truckType: log.truck.type.type,
+            rateCode: log.rate.rateCode,
+            amount: log.rate.amount,
+            status: StatusLogEnumUtil.description(log.status as StatusLogEnum)
+          };
         });
         this.loading = false;
       }
