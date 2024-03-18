@@ -1,7 +1,7 @@
 import {environment} from './environment';
 
 export function isProd(): boolean {
-  return environment.apiUrl.indexOf('poss-customer.com') > -1;
+  return environment.apiUrl.indexOf('we-track-web.com') > -1;
 }
 
 export function isLocal(): boolean {

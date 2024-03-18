@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "poss-customer": {
+    "we-track-web": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/poss-customer",
+            "outputPath": "dist/we-track-web",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -58,10 +58,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "poss-customer:build:production"
+              "buildTarget": "we-track-web:build:production"
             },
             "development": {
-              "buildTarget": "poss-customer:build:development"
+              "buildTarget": "we-track-web:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -69,7 +69,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "poss-customer:build"
+            "buildTarget": "we-track-web:build"
           }
         },
         "test": {
