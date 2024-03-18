@@ -1,0 +1,23 @@
+<div class="flex justify-between items-baseline mb-5">
+<!--  <mat-form-field class="w-6/12">-->
+<!--    <mat-icon matPrefix>search</mat-icon>-->
+<!--    <mat-label>Filter by Product/Barcode</mat-label>-->
+<!--    <input [formControl]="searchFormControl" matInput placeholder="Ex. Product">-->
+<!--  </mat-form-field>-->
+
+  <button (click)="handleAddNew()" color="accent" mat-flat-button>
+    <mat-icon>add</mat-icon>
+    Add
+  </button>
+</div>
+
+<app-table (action)="handleAction($event)" (pageEvent)="handlePageEvent($event)" [dataSource]="dataSource" [displayedColumns]="displayedColumns" [pageIndex]="pageIndex" [pageSize]="pageSize" [length]="length">
+</app-table>
+<ng-template #content>
+  <form [formGroup]="form" class="flex flex-col">
+    <mat-form-field appearance="fill" class="mb-2.5">
+      <mat-label>Type</mat-label>
+      <input formControlName="type" matInput placeholder="..."/>
+    </mat-form-field>
+  </form>
+</ng-template>

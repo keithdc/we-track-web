@@ -14,6 +14,14 @@ export const routes: Routes = [
     path: 'sales',
     loadChildren: () => import('./module/sales/sales.module').then(m => m.SalesModule),
   },
+  {
+    path: 'truck',
+    loadChildren: () => import('./module/truck/truck.module').then(m => m.TruckModule),
+  },
+  {
+    path: 'truck-type',
+    loadChildren: () => import('./module/truck-type/truck-type.module').then(m => m.TruckTypeModule),
+  },
 ];
 
 
