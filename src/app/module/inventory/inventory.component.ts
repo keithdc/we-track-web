@@ -25,7 +25,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
   #displayedColumns: TableHeaderInterface[] = [];
   #dataSource: MatTableDataSource<InventoryInterface> | undefined;
   #unsubscribeAll: Subject<void> = new Subject<void>();
-  #pageSize: number = 10;
+  #pageSize: number = 50;
   #pageIndex: number = 0;
   #length: number = 0;
   #loading: boolean | undefined;
