@@ -43,8 +43,8 @@ export class TableComponent<T> implements OnInit, AfterViewInit, OnDestroy {
   @Input() dataSource: MatTableDataSource<T> | undefined;
   @Input() loading: boolean | undefined;
   @Input() displayedColumns: TableHeaderInterface[] | undefined;
-  @Input() length: number = 10;
-  @Input() pageSize: number = 10;
+  @Input() length: number = 50;
+  @Input() pageSize: number = 50;
   @Input() pageIndex: number = 0;
   #displayedColumnProps: string[] | undefined;
   #type: typeof TableHeaderTypeEnum = TableHeaderTypeEnum
